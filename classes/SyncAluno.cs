@@ -10,7 +10,7 @@ namespace SchoolSystem_CSV_Reader.classes
     {
         public long ID { get; set; }
         public long? NumeroMatricula { get; set; }
-        public long? EscolaID { get; set; }
+        public long? School_ID { get; set; }
         public string Inep { get; set; }
         public string NomeCompleto { get; set; }
         public string Nome { get; set; }
@@ -30,12 +30,12 @@ namespace SchoolSystem_CSV_Reader.classes
 
         public static SyncAluno FromCsv(string csvLine)
         {
-            string[] values = FormataValores(csvLine.Split(',').ToList());
+            string[] values = FormataValores(csvLine.Split(';').ToList());
 
             SyncAluno syncAluno = new SyncAluno();
             syncAluno.ID = Convert.ToInt64(values[0]);
             syncAluno.NumeroMatricula = Convert.ToInt64(values[1]);
-            syncAluno.EscolaID = Convert.ToInt64(values[2]);
+            syncAluno.School_ID = Convert.ToInt64(values[2]);
             syncAluno.Inep = Convert.ToString(values[3]);
 
             syncAluno.NomeCompleto = Convert.ToString(values[4]);
@@ -48,12 +48,16 @@ namespace SchoolSystem_CSV_Reader.classes
             syncAluno.DataNascimento = Convert.ToDateTime(values[8]);
             syncAluno.EmailInstitucional = Convert.ToString(values[9]);
             syncAluno.EmailParticular = Convert.ToString(values[10]);
+
             syncAluno.CodigoSerie = Convert.ToInt32(values[11]);
             syncAluno.NomeSerie = Convert.ToString(values[12]);
+
             syncAluno.CodigoTurma = Convert.ToInt32(values[13]);
             syncAluno.NomeTurma = Convert.ToString(values[14]);
+
             syncAluno.CodigoTurno = Convert.ToInt32(values[15]);
             syncAluno.NomeTurno = Convert.ToString(values[16]);
+
             syncAluno.AnoLetivo = Convert.ToInt32(values[17]);
             syncAluno.Status = Convert.ToInt32(values[18]);
             return syncAluno;
