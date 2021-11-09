@@ -46,8 +46,8 @@ namespace SchoolSystem_CSV_Reader.classes
             //syncAluno.NomeDoMeio = Convert.ToString(values[6]);
             //syncAluno.Sobrenome = Convert.ToString(values[7]);
             syncAluno.DataNascimento = Convert.ToDateTime(values[8]);
-            syncAluno.EmailInstitucional = Convert.ToString(values[9]);
-            syncAluno.EmailParticular = Convert.ToString(values[10]);
+            syncAluno.EmailInstitucional = values[9] == "NULL" || values[9] == "" ? "" : values[9];
+            syncAluno.EmailParticular = values[10] == "NULL" || values[10] == "" ? null : values[10];
 
             syncAluno.CodigoSerie = Convert.ToInt32(values[11]);
             syncAluno.NomeSerie = Convert.ToString(values[12]);

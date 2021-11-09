@@ -9,15 +9,15 @@ namespace SchoolSystem_CSV_Reader.classes
     public class Student
     {
         public long SIS_ID { get; set; }
-        public long? School_ID { get; set; }
-        public string FirstName  { get; set; }
-        public string LastName { get; set; }
-        public string Password { get; set; }
+        public long? School_SIS_ID { get; set; }
+        public string First_Name  { get; set; }
+        public string Last_Name { get; set; }
         public string Username { get; set; }
+        public string Password { get; set; }        
         public long? State_ID { get; set; }
-        public string SecondaryEmail { get; set; }
-        public string StudentNumber { get; set; }
-        public string MiddleName { get; set; }
+        public string Secondary_Email { get; set; }
+        public string Student_Number { get; set; }
+        public string Middle_Name { get; set; }
         public string Grade { get; set; }
         public int? Status { get; set; }
         public DateTime? Birthdate { get; set; }
@@ -28,9 +28,9 @@ namespace SchoolSystem_CSV_Reader.classes
             Student student = new Student();
 
             student.SIS_ID = syncAluno.ID;
-            student.School_ID = syncAluno.School_ID;
-            student.FirstName = syncAluno.Nome;
-            student.LastName = syncAluno.Sobrenome;
+            student.School_SIS_ID = syncAluno.School_ID;
+            student.First_Name = syncAluno.Nome;
+            student.Last_Name = syncAluno.Sobrenome;
             
             if(string.IsNullOrEmpty(syncAluno.EmailInstitucional))
             {
@@ -41,18 +41,19 @@ namespace SchoolSystem_CSV_Reader.classes
                     username = $"{syncAluno.Nome}{syncAluno.NomeDoMeio}";
                 }
 
-                student.Username = username;
+                student.Username = username;                
             }
             else
             {
-                //student.Username = syncAluno.EmailInstitucional;
-                student.Password = $"esd@{syncAluno.NumeroMatricula}";
-            }          
-                
+                student.Username = syncAluno.EmailInstitucional.Substring(0, syncAluno.EmailInstitucional.IndexOf("@"));                
+            }
+
+            student.Password = $"Esd@{syncAluno.NumeroMatricula}";
+
             student.State_ID = null;
-            student.SecondaryEmail = syncAluno.EmailParticular;
-            student.StudentNumber = null;
-            student.MiddleName = syncAluno.NomeDoMeio;
+            student.Secondary_Email = syncAluno.EmailParticular;
+            student.Student_Number = null;
+            student.Middle_Name = syncAluno.NomeDoMeio;
 
             student.Grade = null;
             student.Status = syncAluno.Status;
@@ -62,10 +63,27 @@ namespace SchoolSystem_CSV_Reader.classes
             return student;
         }
 
+        public static void ExportarHeaderToCSV()
+        {
+            string header = string.Empty;
+            Student s = new Student();
+            var props = s.GetType().GetProperties();
+
+            foreach (var prop in props)
+            {
+                header += $"{prop.Name},";
+            }
+
+            header = header.Substring(0, header.Length - 1);
+
+            header = header.Replace("_", " ");
+
+            Exportador.Exportar2(header, "Student");
+        }
+
         public static void ExportarToCSV(Student s)
         {
-            var t = s.GetType().GetProperties();
-            var f = s.GetType().GetFields();
+            var t = s.GetType().GetProperties();            
 
             var formato = "yyyy-MM-hh";
 
@@ -79,7 +97,9 @@ namespace SchoolSystem_CSV_Reader.classes
                     registro += $"{seila.GetValue(s)},";
             }
 
-            registro = registro.Replace("\"","");            
+            registro = registro.Replace("\"","");
+
+            registro = registro.Substring(0, registro.Length-1);
 
             Exportador.Exportar2(registro, "Student");
         }

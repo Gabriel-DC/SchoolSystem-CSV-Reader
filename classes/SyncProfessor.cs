@@ -14,7 +14,7 @@ namespace SchoolSystem_CSV_Reader.classes
         public string NomeProfessor { get; set; }
         public string EmailInstitucional { get; set; }
         public string EmailPessoal { get; set; }
-        public int CodigoDisciplina { get; set; }
+        public int? CodigoDisciplina { get; set; }
         public string NomeDisciplina { get; set; }
         public string DescricaoDisciplina { get; set; }        
         public DateTime? DataInicial { get; set; }
@@ -41,10 +41,10 @@ namespace SchoolSystem_CSV_Reader.classes
 
             //(syncProfessor.Nome, syncProfessor.NomeDoMeio, syncProfessor.Sobrenome) = SepararNomes(syncProfessor.NomeProfessor);
             
-            syncProfessor.EmailInstitucional = Convert.ToString(values[4]);
+            syncProfessor.EmailInstitucional = values[4] == "NULL" || values[4] == "" ? "" : values[4];
             syncProfessor.EmailPessoal = Convert.ToString(values[5]);
 
-            syncProfessor.CodigoDisciplina = Convert.ToInt32(values[6]);
+            syncProfessor.CodigoDisciplina = values[6] == "NULL" || values[6] == "" ? 0 : Convert.ToInt32(values[6]);
             syncProfessor.NomeDisciplina = Convert.ToString(values[7]);
             syncProfessor.DescricaoDisciplina = Convert.ToString(values[8]) == "NULL" ? null : Convert.ToString(values[8]);
 

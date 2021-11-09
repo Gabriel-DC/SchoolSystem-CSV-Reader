@@ -12,7 +12,7 @@ using System.Windows.Forms;
 namespace SchoolSystem_CSV_Reader
 {
     public partial class Form1 : Form
-    {
+    {                                         
         const string SYNC_ALUNO_HEADER = "ID;NumeroMatricula;EscolaID;Inep;NomeCompleto;Nome;NomeDoMeio;SobreNome;DataNascimento;EmailInstitucional;EmailParticular;CodigoSerie;NomeSerie;CodigoTurma;NomeTurma;CodigoTurno;NomeTurno;AnoLetivo;Status";
         const string SYNC_PROFESSOR_HEADER = "ID;EscolaID;CodigoProfessor;NomeProfessor;EmailInstitucional;EmailPessoal;CodigoDisciplina;NomeDisciplina;DescricaoDisciplina;DataInicial;DataFinal;CodigoCurso;NomeCurso;CodigoSerie;NomeSerie;CodigoTurma;NomeTurma;CodigoTurno;NomeTurno";
         const string PATH_ARQUIVOS = "C:\\Users\\Public";
@@ -69,8 +69,8 @@ namespace SchoolSystem_CSV_Reader
                         if (sections.Any(s => s.SIS_ID == professor.CodigoTurma))
                         {
                             TeacherRoster tr = new TeacherRoster();
-                            tr.ID_Section = (long)professor.CodigoTurma;
-                            tr.Teacher_ID = (long)professor.CodigoProfessor;
+                            tr.Section_SIS_ID = (long)professor.CodigoTurma;
+                            tr.SIS_ID = (long)professor.CodigoProfessor;
 
                             teacherRosters.Add(tr);
                         }
@@ -91,34 +91,39 @@ namespace SchoolSystem_CSV_Reader
                     if (sections.Any(s => s.SIS_ID == aluno.CodigoTurma))
                     {
                         StudentEnrollment se = new StudentEnrollment();
-                        se.ID_Section = aluno.CodigoTurma;
-                        se.Student_ID = aluno.ID;
+                        se.Section_SIS_ID = aluno.CodigoTurma;
+                        se.SIS_ID = aluno.ID;
 
                         studentEnrollments.Add(se);
                     }
                     //}
                 }
 
+                StudentEnrollment.ExportHeaderToCSV();
                 foreach (var x in studentEnrollments)
                 {
                     StudentEnrollment.ExportarToCSV(x);
                 }
 
+                Student.ExportarHeaderToCSV();
                 foreach (var y in students)
                 {
                     Student.ExportarToCSV(y);
                 }
 
+                Section.ExportarHeaderToCSV();
                 foreach (var z in sections)
                 {
                     Section.ExportarToCSV(z);
                 }
 
+                Teacher.ExportarHeaderToCSV();
                 foreach (var t in teachers)
                 {
                     Teacher.ExportarToCSV(t);
                 }
 
+                TeacherRoster.ExportarHeaderToCSV();
                 foreach (var tr in teacherRosters)
                 {
                     TeacherRoster.ExportarToCSV(tr);
